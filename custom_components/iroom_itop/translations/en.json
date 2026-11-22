@@ -1,0 +1,35 @@
+{
+  "config": {
+    "flow_title": "iRoom iTop ({name})",
+    "step": {
+      "user": {
+        "title": "iRoom iTop / iDock",
+        "description": "How would you like to add the dock?",
+        "menu_options": {
+          "search": "Search the network automatically",
+          "manual": "Enter IP address manually"
+        }
+      },
+      "search": {
+        "title": "Discovered iRoom docks",
+        "description": "Select the dock you want to add.",
+        "data": { "host": "Dock" }
+      },
+      "manual": {
+        "title": "iRoom iTop / iDock",
+        "description": "Enter the docking station's IP address. Default port is 13601.",
+        "data": { "host": "IP address", "port": "Port" }
+      },
+      "dhcp_confirm": {
+        "title": "iRoom dock found",
+        "description": "An iRoom dock was detected at {host}. Would you like to add it?"
+      }
+    },
+    "error": {
+      "cannot_connect": "Connection failed. Check IP/port and network."
+    },
+    "abort": {
+      "already_configured": "This docking station is already configured."
+    }
+  }
+}

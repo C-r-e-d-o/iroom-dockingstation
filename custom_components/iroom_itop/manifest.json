@@ -1,0 +1,19 @@
+{
+  "domain": "iroom_itop",
+  "name": "iRoom iTop / iDock",
+  "version": "0.1.0",
+  "config_flow": true,
+  "documentation": "https://github.com/Credo/iroom-dockingstation",
+  "issue_tracker": "https://github.com/Credo/iroom-dockingstation/issues",
+  "iot_class": "local_push",
+  "integration_type": "device",
+  "codeowners": ["@Credo"],
+  "requirements": [],
+  "dependencies": [],
+  "dhcp": [
+    { "hostname": "idock*" },
+    { "hostname": "itop*" },
+    { "hostname": "touchdock*" },
+    { "macaddress": "885D90*" }
+  ]
+}
