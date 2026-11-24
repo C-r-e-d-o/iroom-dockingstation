@@ -7,7 +7,12 @@ entities.
 
 Compatible products:
 
+All products listed below with a serial number beginning with 0103:
+
 - iBezel
+- iTop
+- iTopOnWall
+- touchDock
 
 > Independent community project. Not an official product and not affiliated with
 > the device manufacturer. Use at your own risk.
@@ -15,7 +20,8 @@ Compatible products:
 ## Features
 - **Switches:** relay, boolean config parameters
 - **Lights:** LED Home + LED 1–6
-- **Cover:** dock open/close
+- **Cover/Lock :** dock open/close
+- **iPad display:** On/Off
 - **Media player:** volume (absolute + up/down/mute), play/pause/next/prev
 - **Binary sensors:** digital inputs 0–8, iPad docked, network status
 - **Sensors:** battery, charge/supply current & voltage, IR level, firmware info,
