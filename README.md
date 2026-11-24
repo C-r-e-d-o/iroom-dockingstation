@@ -5,6 +5,10 @@ It talks to the dock over its LAN protocol (TCP, port **13601**) — **no cloud,
 app, no firmware change**. The dock shows up as a single device with all its
 entities.
 
+Compatible products:
+
+- iBezel
+
 > Independent community project. Not an official product and not affiliated with
 > the device manufacturer. Use at your own risk.
 
