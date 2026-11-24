@@ -1,4 +1,4 @@
-# iRoom iTop / iDock – Home Assistant integration
+# iRoom iPad Dockingstation – Home Assistant integration
 
 Local Home Assistant integration for **iRoom iTop / iDock Q6** docking stations.
 It talks to the dock over its LAN protocol (TCP, port **13601**) — **no cloud, no
