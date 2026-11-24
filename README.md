@@ -37,7 +37,7 @@ All products listed below with a serial number beginning with 0103:
 
 ### Via HACS (custom repository)
 1. HACS → ⋮ (top right) → **Custom repositories**.
-2. Repository: `https://github.com/Credo/iroom-dockingstation`, category:
+2. Repository: `https://github.com/C-r-e-d-o/iroom-dockingstation`, category:
    **Integration** → **Add**.
 3. Search for **iRoom iTop**, **Download**, then **restart Home Assistant**.
 
