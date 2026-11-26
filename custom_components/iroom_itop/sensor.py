@@ -53,7 +53,6 @@ SENSORS = [
     ItopSensorDesc("model", "Model", diagnostic=True),
     ItopSensorDesc("mac", "MAC address", diagnostic=True),
     ItopSensorDesc("serial_nr", "Serial number (determines the MAC address)", diagnostic=True),
-    ItopSensorDesc("pin", "Unlock PIN", diagnostic=True),
     ItopSensorDesc("dock_fw", "Firmware", diagnostic=True),
     ItopSensorDesc("boot_fw", "Bootloader", diagnostic=True),
     ItopSensorDesc("bezel_fw", "iBezel firmware", diagnostic=True),

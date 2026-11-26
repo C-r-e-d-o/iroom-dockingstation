@@ -1,0 +1,7 @@
+get_unlock_pin:
+  fields:
+    config_entry_id:
+      required: false
+      selector:
+        config_entry:
+          integration: iroom_itop

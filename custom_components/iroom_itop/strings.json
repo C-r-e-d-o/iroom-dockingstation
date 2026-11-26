@@ -31,5 +31,17 @@
     "abort": {
       "already_configured": "This docking station is already configured."
     }
+  },
+  "services": {
+    "get_unlock_pin": {
+      "name": "Get unlock PIN",
+      "description": "Return the dock's unlock PIN in the action response. Admin only; the value is not stored as an entity state or in the history database.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Device",
+          "description": "The iRoom iTop device to query. Only needed when more than one is configured."
+        }
+      }
+    }
   }
 }
