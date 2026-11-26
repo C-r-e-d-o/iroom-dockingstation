@@ -1,4 +1,4 @@
-# iRoom iPad Dockingstation – Home Assistant integration
+# iRoom iTop / iDock – Home Assistant integration
 
 Local Home Assistant integration for **iRoom iTop / iDock Q6** docking stations.
 It talks to the dock over its LAN protocol (TCP, port **13601**) — **no cloud, no
@@ -25,11 +25,13 @@ All products listed below with a serial number beginning with 0103:
 - **Media player:** volume (absolute + up/down/mute), play/pause/next/prev
 - **Binary sensors:** digital inputs 0–8, iPad docked, network status
 - **Sensors:** battery, charge/supply current & voltage, IR level, firmware info,
-  serial number, unlock PIN (read-only)
+  serial number
 - **Buttons:** beep, toggle dock, iPad display on/off, save settings, reboot
 - **Numbers / text / select:** brightness, timers, network settings
   (DHCP / static IP, IP, mask, DNS, gateway, hostname, port)
 - **Events:** buttons 0–6, IR event
+- **Services:** `get_unlock_pin` — returns the unlock PIN in the action response
+  (admin only; not stored as a state or in history)
 - **Discovery:** automatic (DHCP + active network scan) and manual IP entry
 - **Local push** over a persistent TCP connection
 
@@ -51,8 +53,10 @@ let it **search the network** or **enter the dock's IP** (default port 13601).
 Tip: give the dock a fixed IP (DHCP reservation) so the address stays stable.
 
 ## Notes
-- Some values are read-only over LAN by design (e.g. access code is not
-  retrievable; serial number / PIN are display-only).
+- Some values are read-only over LAN by design (e.g. the access code is not
+  retrievable; the serial number is display-only). The unlock PIN is **not**
+  exposed as an entity — read it with the admin-only **`get_unlock_pin`** action
+  (Developer Tools → Actions).
 - Changing IP, network mode or port can drop the connection — re-add the
   integration with the new address afterwards.
 - The dock auto-saves changed settings a few seconds after a change (firmware
