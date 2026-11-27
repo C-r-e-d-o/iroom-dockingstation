@@ -67,6 +67,7 @@ class ItopText(ItopEntity, TextEntity):
             self._attr_pattern = desc.pattern
 
     def _dhcp_active(self) -> bool:
+        # connection_type == "1" is DHCP (verified on hardware; see select.py).
         return self._d.dhcp_locked and self.coordinator.inf("connection_type") == "1"
 
     @property

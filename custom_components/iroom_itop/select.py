@@ -11,7 +11,13 @@ from .const import DOMAIN
 from .coordinator import ItopCoordinator
 from .entity import ItopEntity
 
-# Assumption: connection_type 1 = DHCP, 0 = static IP
+# connection_type mapping, verified on hardware
+# (model iDock_Q6_TouchDock_Mode, firmware 1.7.06):
+#   DHCP       -> "1"
+#   Static IP  -> "0"
+# The parameter is an unsigned int, but only these two values are used; any other
+# value maps to no option (current_option returns None, shown blank) and the two
+# options below are the only ones that can be written.
 _OPT_TO_VAL = {"DHCP": "1", "Static IP": "0"}
 _VAL_TO_OPT = {v: k for k, v in _OPT_TO_VAL.items()}
 
