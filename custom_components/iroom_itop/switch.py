@@ -1,4 +1,9 @@
-"""Schalter: Relais + boolsche Konfig-Parameter."""
+"""Schalter: Relais + verifizierte boolsche Bedien-Parameter.
+
+Nur beschreibbare bool-Parameter aus WRITABLE_BOOL_PARAMS werden als Schalter
+angeboten. Ungeprüfte Installer-/Motor-Booleans erscheinen read-only als
+Diagnose-Sensoren (sensor.py), bis sie am echten Dock verifiziert sind.
+"""
 from __future__ import annotations
 
 from homeassistant.components.switch import SwitchEntity
@@ -7,7 +12,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, PARAM_BOOL
+from .const import DOMAIN, WRITABLE_BOOL_PARAMS
 from .coordinator import ItopCoordinator
 from .entity import ItopEntity
 
@@ -22,7 +27,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry,
     ents: list[SwitchEntity] = [
         ItopRelay(coord, entry.entry_id, key, name) for key, name in RELAYS.items()
     ]
-    for p in PARAM_BOOL:
+    for p in WRITABLE_BOOL_PARAMS:
         if p == "enable_audio_output":
             # right after the iPad buttons (Controls section), English name
             ents.append(ItopBoolParam(coord, entry.entry_id, p,

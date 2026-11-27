@@ -126,3 +126,22 @@ PARAM_NUMBER_META = {
     "settings_delay": ("s", 0, 65535),
 }
 PARAM_BOOL = [p for p, t in PARAMS.items() if t == "bool"]
+
+# ---- Schreib-Richtlinie (Hardware-Validierung) ----
+# Nur Schreibzugriffe, die an echter Hardware ausgeführt wurden oder die von Natur
+# aus reversible Bedien-Funktionen sind, werden als beschreibbare Entitäten
+# angeboten. Jeder andere Konfigurationsparameter wird read-only angezeigt, bis er
+# an einem echten Dock verifiziert ist – der Dock speichert Änderungen per
+# Staged-Commit selbst ab, sodass ein falscher Wert hängen bliebe.
+# Siehe PROTOCOL.md ("Hardware-Validierung").
+#
+# An Hardware bestätigt (Modell iDock_Q6_TouchDock_Mode, Firmware 1.7.06):
+#   connection_type (DHCP="1" / Static IP="0") und die Netzwerk-Adressfelder.
+# Reversible Bedien-Controls, die beschreibbar bleiben: relay0, led0..6, beep,
+#   volume, idock/ipad/music-Aktionen, Display-Helligkeit, enable_audio_output.
+WRITABLE_BOOL_PARAMS = ["enable_audio_output"]
+WRITABLE_NUMBER_PARAMS = ["brightness"]
+
+# Konfig-Parameter, die bis zur Verifikation read-only (Diagnose) angezeigt werden.
+READONLY_BOOL_PARAMS = [p for p in PARAM_BOOL if p not in WRITABLE_BOOL_PARAMS]
+READONLY_NUMBER_PARAMS = [p for p in PARAM_NUMBER_META if p not in WRITABLE_NUMBER_PARAMS]

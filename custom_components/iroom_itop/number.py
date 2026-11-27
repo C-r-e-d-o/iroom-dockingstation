@@ -1,4 +1,10 @@
-"""Numerische Konfig-Parameter (Zeiten, Helligkeit, Empfindlichkeit …)."""
+"""Numerische Konfig-Parameter (beschreibbar nur, wo verifiziert).
+
+Nur Parameter aus WRITABLE_NUMBER_PARAMS werden als beschreibbare number-Entität
+angeboten (aktuell nur Display-Helligkeit mit 0..100). Ungeprüfte Timer-/Motor-
+Werte (jam_factor, settings_delay, close_time …) erscheinen read-only als
+Diagnose-Sensoren (sensor.py), bis sie am echten Dock verifiziert sind.
+"""
 from __future__ import annotations
 
 from homeassistant.components.number import NumberEntity, NumberMode
@@ -7,7 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN, PARAM_NUMBER_META
+from .const import DOMAIN, PARAM_NUMBER_META, WRITABLE_NUMBER_PARAMS
 from .coordinator import ItopCoordinator
 from .entity import ItopEntity
 
@@ -16,8 +22,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry,
                             add: AddEntitiesCallback) -> None:
     coord: ItopCoordinator = hass.data[DOMAIN][entry.entry_id]
     add(
-        ItopNumber(coord, entry.entry_id, key, unit, lo, hi)
-        for key, (unit, lo, hi) in PARAM_NUMBER_META.items()
+        ItopNumber(coord, entry.entry_id, key, *PARAM_NUMBER_META[key])
+        for key in WRITABLE_NUMBER_PARAMS
     )
 
 

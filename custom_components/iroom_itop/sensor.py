@@ -1,4 +1,10 @@
-"""Sensoren: Batterie, Versorgung, Ströme, IR, Firmware-Infos."""
+"""Sensoren: Batterie, Versorgung, Ströme, IR, Firmware-Infos.
+
+Zusätzlich werden Konfig-/Installer-Parameter, die (noch) nicht an echter
+Hardware verifiziert sind, hier read-only als Diagnose-Sensoren angezeigt
+(READONLY_BOOL_PARAMS / READONLY_NUMBER_PARAMS, siehe const.py). So bleibt der
+aktuelle Wert sichtbar, ohne dass ein ungeprüfter Schreibzugriff möglich ist.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -15,7 +21,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.const import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN
+from .const import (
+    DOMAIN, PARAM_NUMBER_META, READONLY_BOOL_PARAMS, READONLY_NUMBER_PARAMS,
+)
 from .coordinator import ItopCoordinator
 from .entity import ItopEntity
 
@@ -33,6 +41,12 @@ class ItopSensorDesc:
 
 def _mv(v: str):
     return int(float(v))
+
+
+def _onoff(v: str):
+    return {"1": "on", "0": "off", "true": "on", "false": "off"}.get(
+        str(v).strip().lower(), v
+    )
 
 
 SENSORS = [
@@ -60,10 +74,25 @@ SENSORS = [
 ]
 
 
+def _readonly_param_sensors() -> list[ItopSensorDesc]:
+    """Config/installer parameters shown read-only until verified on hardware."""
+    out: list[ItopSensorDesc] = []
+    for key in READONLY_BOOL_PARAMS:
+        out.append(ItopSensorDesc(
+            key, key.replace("_", " ").capitalize(), diagnostic=True, conv=_onoff))
+    for key in READONLY_NUMBER_PARAMS:
+        unit = PARAM_NUMBER_META[key][0]
+        out.append(ItopSensorDesc(
+            key, key.replace("_", " ").capitalize(), unit=unit,
+            diagnostic=True, conv=_mv))
+    return out
+
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry,
                             add: AddEntitiesCallback) -> None:
     coord: ItopCoordinator = hass.data[DOMAIN][entry.entry_id]
-    add(ItopSensor(coord, entry.entry_id, d) for d in SENSORS)
+    add(ItopSensor(coord, entry.entry_id, d)
+        for d in [*SENSORS, *_readonly_param_sensors()])
 
 
 class ItopSensor(ItopEntity, SensorEntity):
