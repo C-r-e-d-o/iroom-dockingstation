@@ -3,6 +3,27 @@
 Rekonstruiert aus Firmware (v1.7.06) **und** App-Quellcode (`iBezel/`), gegen
 Simulator verifiziert. Grundlage der HA-Integration.
 
+## Hardware-Validierung
+
+Nicht alle Befehle sind gleich stark abgesichert. Die Integration gibt deshalb
+nur Schreibzugriffe als beschreibbare Entitäten frei, die an echter Hardware
+geprüft wurden oder von Natur aus reversibel sind; alles andere ist read-only.
+
+Referenzgerät: **`iDock_Q6_TouchDock_Mode`, Firmware 1.7.06**.
+
+| Klasse | Validierung | In HA |
+|---|---|---|
+| Netzwerk-Modus `connection_type` (DHCP=`1`, Static=`0`) | an Hardware gelesen in DHCP- **und** Static-Modus | **beschreibbar** (select) |
+| Netzwerk-Adressfelder `ip`/`subnet_mask`/`dns`/`router`/`host_name`/`port` | an Hardware gelesen/gesetzt | **beschreibbar** (text) |
+| Bedien-Controls `relay0`, `led0..6`, `beep`, `volume`, `idock`/`ipad`/`music`, Display-`brightness`, `enable_audio_output` | reversibel, kein Staged-Commit-Risiko | **beschreibbar** |
+| Installer-/Motor-/Timing-Parameter `jam_factor`, `settings_delay`, `set_default_par_on_start`, `release_demo_mode`, `always_docked`, `close_time`, `unlock_time`, `switch_back_time`, `sensitivity`, Auto-Open/Close-Booleans, Panel-/IR-Parameter … | nur aus Firmware/App rekonstruiert, **nicht** an Hardware verifiziert | **read-only** (Diagnose-Sensor) |
+
+Hintergrund: Der Dock speichert geänderte Parameter per Staged-Commit nach
+wenigen Sekunden selbst ab (`settings_delay`), d. h. ein falsch gewählter Wert
+bliebe persistent hängen und könnte den Dock bis zu einem Reset vor Ort
+verstellen. Bis die betroffenen Schreibpfade an echter Hardware bestätigt sind
+(Modell, Firmware, beobachtete Wirkung), bleiben sie read-only.
+
 ## Transport
 - TCP, Standardport **13601**, reiner **UTF-8-Text**, **kein** Preamble/Länge/
   Checksumme, **kein Login**.
@@ -47,6 +68,10 @@ Nur lesbar: `model`, `api`, `serial_nr`, `op_ho`, `mac`, `supply`, `supply_ipad`
 `charge_current`, `available_current`, `battery_level`, `battery_state`,
 `dockingstate`, `digital0..8`, `button0..6`, `irevent`, `ir_raw`, `irlevel`,
 `dock_fw`, `boot_fw`, `bezel_fw`. Neustart: `req:reboot;`.
+
+> Welche dieser setzbaren Parameter die Integration tatsächlich beschreibbar
+> macht, richtet sich nach der Tabelle unter *Hardware-Validierung*; ungeprüfte
+> Parameter werden read-only angezeigt.
 
 ## Antworten / Events
 - Antworten/Status als `inf:<name>:<wert>;`. Unaufgeforderte Änderungen (Taste,
