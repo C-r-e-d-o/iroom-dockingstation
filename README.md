@@ -1,5 +1,7 @@
 # iRoom iTop / iDock – Home Assistant integration
 
+⚠️ **DISCLAIMER: This is an unofficial community integration and is not developed, supported, or authorized by ELTAKO or iRoom.** ⚠️
+
 Local Home Assistant integration for **iRoom iTop / iDock Q6** docking stations.
 It talks to the dock over its LAN protocol (TCP, port **13601**) — **no cloud, no
 app, no firmware change**. The dock shows up as a single device with all its
@@ -13,9 +15,6 @@ All products listed below with a serial number beginning with 0103:
 - iTop
 - iTopOnWall
 - touchDock
-
-> Independent community project. Not an official product and not affiliated with
-> the device manufacturer. Use at your own risk.
 
 > **Hardware-verified on:** model `iDock_Q6_TouchDock_Mode`, firmware 1.7.06. The
 > other listed variants use the same LAN protocol but have not been individually
@@ -78,3 +77,5 @@ Tip: give the dock a fixed IP (DHCP reservation) so the address stays stable.
 
 ## License
 MIT — see [LICENSE](LICENSE).
+
+⚠️ **DISCLAIMER: This is an unofficial community integration and is not developed, supported, or authorized by ELTAKO or iRoom.** ⚠️
